@@ -66,7 +66,7 @@ int main(void) {
 
         // Update the delay so that the speed will increase when the snake gets more long.
         if (targetDelay > 1)
-            targetDelay = 6 - (snake.getLength() % 10);
+            targetDelay = 6 - ((snake.getLength() - 1) / 10);
 
         // If [HOME] was pressed on the first Wiimote, break out of the loop
         if (WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME)  break;
@@ -119,12 +119,14 @@ int main(void) {
         GRRLIB_FillScreen(GRRLIB_BLACK);
         GRRLIB_Rectangle(PalCorrectionX, PalCorrectionY, screenWidth, screenHeight, GRRLIB_WHITE, false);
         GRRLIB_PrintfTTF((screenWidth / 2) - GRRLIB_WidthTTF(font, score, 72) / 2 + PalCorrectionX, (screenHeight / 2) - 50 + PalCorrectionY, font, score, 72, DARK_GRAY);
+        
 
         snake.draw();
         fruit.draw();
 
         if (!snake.checkAlive())
         {
+        	targetDelay = 6;
             GRRLIB_PrintfTTF((screenWidth / 2) - GRRLIB_WidthTTF(font, "You lost, press + to retry", 18) / 2 + PalCorrectionX, (screenHeight / 2) + 100 + PalCorrectionY, font, "You lost, press + to retry", 18, DARK_GRAY);
             input.x = 1;
             input.y = 0;
